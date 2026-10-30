@@ -1,5 +1,5 @@
-# Nexus: concept full-stack platform (dummy data only)
-
+# Nexus: 
+(Dummy Data)
 A portfolio project: animated landing page, role-based authentication, Project Tracker, Live Operations dashboard and Loan Centre, plus small Realty and Assistant add-ons. Every row in the database is **dummy data** created by `prisma/seed.ts`.
 
 > Independent concept project. Not affiliated with any company. No real logos, names or data.
