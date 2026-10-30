@@ -1,0 +1,132 @@
+// Nexus concept project. Every row in this database is DUMMY data created by prisma/seed.ts.
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int               @id @default(autoincrement())
+  name         String
+  email        String            @unique
+  passwordHash String
+  role         String            @default("customer") // customer | manager | admin
+  createdAt    DateTime          @default(now())
+  loans        LoanApplication[]
+  favorites    Favorite[]
+  enquiries    Enquiry[]
+}
+
+model Project {
+  id          Int         @id @default(autoincrement())
+  name        String
+  vertical    String
+  city        String
+  manager     String
+  status      String // Planning | On Track | At Risk | Delayed | Completed
+  budget      Float // crore INR (dummy)
+  spent       Float
+  start       DateTime
+  end         DateTime
+  description String      @db.Text
+  milestones  Milestone[]
+}
+
+model Milestone {
+  id        Int      @id @default(autoincrement())
+  projectId Int
+  title     String
+  due       DateTime
+  done      Boolean  @default(false)
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
+
+model Plant {
+  id       String @id
+  name     String
+  type     String
+  capacity Int
+  unit     String
+  base     Float
+}
+
+model LoanProduct {
+  id              String            @id
+  name            String
+  rate            Float
+  minAmount       Int
+  maxAmount       Int
+  maxTenureMonths Int
+  blurb           String
+  applications    LoanApplication[]
+}
+
+model LoanApplication {
+  id            Int         @id @default(autoincrement())
+  userId        Int
+  productId     String
+  amount        Int
+  tenureMonths  Int
+  monthlyIncome Int
+  existingEmi   Int
+  employment    String
+  creditScore   Int
+  purpose       String
+  emi           Float
+  score         Int
+  decision      String // Approved | Rejected
+  reasons       Json
+  createdAt     DateTime    @default(now())
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product       LoanProduct @relation(fields: [productId], references: [id])
+
+  @@index([userId])
+}
+
+model Property {
+  id        Int        @id @default(autoincrement())
+  title     String
+  city      String
+  type      String // Apartment | Villa | Office
+  bedrooms  Int
+  areaSqft  Int
+  price     Int // INR lakh (dummy)
+  status    String // Ready | Under construction
+  amenities String // comma separated
+  favorites Favorite[]
+  enquiries Enquiry[]
+}
+
+model Favorite {
+  userId     Int
+  propertyId Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@id([userId, propertyId])
+}
+
+model Enquiry {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  propertyId Int
+  message    String
+  slot       String
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([propertyId])
+}
+
+model KnowledgeChunk {
+  id   Int    @id @default(autoincrement())
+  doc  String
+  text String @db.Text
+}
