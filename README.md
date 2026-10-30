@@ -77,7 +77,7 @@ src/
   components/            charts, SVG illustrations, animated skyline, nav, forms
 ```
 
-## 4. What to say in an interview
+## 4. Major Part
 
 - **Auth:** bcrypt password hashing, signed JWT stored in an httpOnly, sameSite cookie (not readable by JavaScript), middleware redirects, and role checks again inside every API route.
 - **Validation:** Zod schemas on every endpoint; the same loan maths runs in the browser (preview) and on the server (decision).
