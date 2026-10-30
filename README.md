@@ -1,4 +1,4 @@
-# Nexus: 
+# Nexus:Full-Stack Operations & Customer Services Platform
 (Dummy Data)
 A portfolio project: animated landing page, role-based authentication, Project Tracker, Live Operations dashboard and Loan Centre, plus small Realty and Assistant add-ons. Every row in the database is **dummy data** created by `prisma/seed.ts`.
 
